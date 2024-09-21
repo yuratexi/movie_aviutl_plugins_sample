@@ -6,7 +6,6 @@ githubから来た人にはマジで使い物にならないファイルです�
 
 動画▷準備中
 
-[ソースコードはこちら](https://github.com/yuratexi/movie_aviutl_plugins_sample/releases/latest)
 
 # ライセンスについて
 aviutl_exedit_sdkの配布元がライセンスを1条項BSDとしているため、1条項BSDのライセンスをそのまま写しています。
