@@ -1,0 +1,71 @@
+#include <windows.h>
+#include <filter.h>
+#include <exedit.hpp>
+
+
+FILTER_DLL filter = {
+    FILTER_FLAG_ALWAYS_ACTIVE,
+    NULL,NULL,
+    const_cast<char*>("テストプラグイン"),
+    NULL,NULL,NULL,
+    NULL,NULL,
+    NULL,NULL,NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    func_WndProc,
+};
+
+
+EXTERN_C FILTER_DLL __declspec(dllexport)* __stdcall GetFilterTable(void) {
+    return &filter;
+}
+
+
+
+FILTER* exeditfp;
+
+EXFUNC exfunc;
+
+
+FILTER* get_exeditfp(FILTER* fp) {
+    SYS_INFO si;
+    fp->exfunc->get_sys_info(NULL, &si);
+
+    for (int i = 0; i < si.filter_n; i++) {
+        FILTER* tfp = (FILTER*)fp->exfunc->get_filterp(i);
+        if (tfp->information != NULL) {
+            if (!strcmp(tfp->information, "拡張編集(exedit) version 0.92 by ＫＥＮくん")) return tfp;
+        }
+    }
+    return NULL;
+}
+
+static inline void(__cdecl* drawtimeline)(); // 39230
+
+
+BOOL func_WndProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam, void* editp, FILTER* fp) {
+    switch (message) {
+
+    //(多分)最初に実行される部分
+    case WM_FILTER_INIT:
+
+        //拡張編集0.92があるかの判別
+        exeditfp = get_exeditfp(fp);
+        if (exeditfp == NULL) {
+            MessageBoxA(fp->hwnd, "拡張編集0.92が見つかりませんでした", fp->name, MB_OK);
+            break;
+        }
+
+        drawtimeline = reinterpret_cast<decltype(drawtimeline)>((int)exeditfp->dll_hinst + 0x39230);
+
+
+        break;
+    case WM_FILTER_COMMAND:
+        switch (wparam) {
+        }
+        break;
+    }
+    return FALSE;
+}
