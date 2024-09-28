@@ -4,7 +4,7 @@
 youtubeの概要欄に貼るにはあまりにも長すぎたのでここで配布してます
 githubから来た人にはマジで使い物にならないファイルです。
 
-動画▷準備中
+動画▷[https://youtu.be/iKmlNii439o](https://youtu.be/iKmlNii439o)
 
 
 # ライセンスについて
